@@ -15,7 +15,7 @@ def proc(df):
 	print("Machine Learning...")
 	#### Train, Valid Set 준비하기
 	# 테스트에없는 칼럼 삭제
-	df = df.drop(['DRR','ATT_H',"ATT_M"], axis = 1)
+	df = df.drop(['DRR','ATT_H',"ATT_M","SDT_YY","STT_M"], axis = 1)
 	#데이터셋 스플릿하기
 	from sklearn.model_selection import StratifiedShuffleSplit
 	split = StratifiedShuffleSplit(n_splits = 1, test_size = 0.2, random_state=42)
@@ -24,18 +24,16 @@ def proc(df):
 	    df1 = df_x.iloc[df_index]
 	    val1 = df_x.iloc[val_index]
 	#학습데이터셋 스플릿하기
-	df_x = df1.sort_values(["SDT_YY"], ascending=[True])
 	df_y = df_x['DLY']
 	df_x = df_x.drop(['DLY'], axis=1)
 	#밸리드데이터셋 스플릿하기
-	val_x = val1.sort_values(["SDT_YY"], ascending=[True])
 	val_y = val_x['DLY']
 	val_x = val_x.drop(['DLY'], axis=1)
 
 	###### 학습하기
 	models = [
 	linear_model.LogisticRegression(),
-	SVC(),
+	#SVC(),
 	KNeighborsClassifier(n_neighbors = 3),
 	GaussianNB(),
 	Perceptron(),
@@ -51,10 +49,10 @@ def proc(df):
 		print(classification_report(val_y, pred))
 		print()
 
-	random_forest = RandomForestClassifier(n_estimators=100)
+	random_forest = RandomForestClassifier(n_estimators=10000)
 	random_forest.fit(df_x, df_y)
 	Y_pred = random_forest.predict(val_x)
 	print(len(models), "번 째 모델 학습 시작-------------------")
 	print(random_forest)
-	print(classification_report(val_y, pred))
+	print(classification_report(val_y, Y_pred))
 	print()
