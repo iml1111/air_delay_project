@@ -8,7 +8,7 @@ from sklearn import preprocessing
 def proc(filename = 'AFSNT.csv'):
 	###############파일 불러오기
 	print("file_load...")
-	df = pd.read_csv('AFSNT.csv', engine='python')
+	df = pd.read_csv(filename, engine='python')
 
 	#############전처리하기
 	print("pre-processing...")
