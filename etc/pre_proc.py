@@ -92,7 +92,7 @@ def pre_func(x):
 df = df.apply(lambda x: pre_func(x), axis = 1)
 # 계획시간보다 너무 일찍 출발한 경우를 날려버리기
 # -176을 경계로 매우 크게 차이남(데이터값 오류? 아니면 특례?)
-df = df[df['TIME'] >= -176]
+df = df[(-173 <= df['TIME']) & ]
 
 print("writing...")
 # 해당 데이터를 csv로 생성하기
