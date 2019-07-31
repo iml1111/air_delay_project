@@ -8,7 +8,6 @@ from sklearn import preprocessing
 def proc(filename = 'AFSNT.csv'):
 	###############파일 불러오기
 	print("file_load...")
-	origin_df = pd.read_csv(filename, engine='python')
 	df = pd.read_csv(filename, engine='python')
 	#############전처리하기
 	print("pre-processing...")
@@ -58,19 +57,19 @@ def proc(filename = 'AFSNT.csv'):
 		ans = x['ATT'] - x['STT']
 		if x['DLY'] == "N":
 			if ans < 0:
-				if (ans + 1440 <= 30 and x['AOD'] == 'D') or (ans + 1440 <= 59 and x['AOD'] =='A'):
+				if (ans + 1440 <= 30):
 					ans += 1440
-				if (ans >= 31 and x['AOD'] == 'D') or (ans >= 60 and x['AOD'] == 'A'): 
+				if (ans >= 31): 
 					ans -= 1440
 		else:
-			if (ans < 31 and x['AOD'] == 'D') or (ans < 60 and x['AOD'] == 'A'):
+			if (ans < 31):
 				ans += 1440
-			if ans > 1471:
+			if ans >= 1471:
 				ans -= 1440
 		x['TIME'] = ans
 		return x
 	df = df.apply(lambda x: pre_time(x), axis = 1)
-	df = df[(-173 <= df['TIME']) & (df['TIME'] <= 660)]
+	df = df[(-173 <= df['TIME']) & (df['TIME'] <= 500)]
 	return df
 
 def label(df):
