@@ -3,10 +3,10 @@ import pandas as pd
 import random as rnd
 from sklearn import preprocessing
 
-def proc(file = 'AFSNT.csv'):
+def p_proc(file = '/content/drive/My Drive/Colab Notebooks/air_delay_project/src/AFSNT.CSV'):
 	###############파일 불러오기
 	print("file_load...")
-	df = pd.read_csv(file, engine='python')
+	df = pd.read_csv(file, engine='python', encoding="euc-kr")
 	#############전처리하기
 	print("pre-processing...")
 	#결항 제거

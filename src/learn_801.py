@@ -2,7 +2,7 @@ from sklearn.metrics import classification_report
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.ensemble import RandomForestClassifier
 
-def proc(df, est = 100):
+def l_proc(df, est = 100):
 	#### Train, Valid Set 준비하기
 	split = StratifiedShuffleSplit(n_splits = 1, test_size = 0.2, random_state=42)
 	df_x = df
