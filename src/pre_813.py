@@ -48,7 +48,7 @@ def proc(file = 'AFSNT.csv'):
 
 def label(df):
 	#학습 데이터 외의 칼럼 제거
-	df = df.drop(['CNL','CNR','IRR','DRR','SDT_YY','ATT','Time',"STT","ATT","FLT","ATT_H","ATT_M","STT_M"], axis = 1)
+	df = df.drop(['CNL','CNR','IRR','DRR','SDT_YY','ATT','Time',"STT","ATT","ATT_H","ATT_M","STT_M"], axis = 1)
 	df['ARP'].loc[(df['ARP'] == 'ARP1')] = 1
 	df['ARP'].loc[(df['ARP'] == 'ARP2')] = 2
 	df['ARP'].loc[(df['ARP'] == 'ARP3')] = 3
@@ -95,7 +95,9 @@ def label(df):
 	df['REG'] = df_y.reshape(len(df_y), 1)
 	df_y = label_encoder.fit_transform(df['AOD']) 
 	df['AOD'] = df_y.reshape(len(df_y), 1)
+	df_y = label_encoder.fit_transform(df['FLT']) 
+	df['FLT'] = df_y.reshape(len(df_y), 1)
 
 	return df
 	#SDT_MM  SDT_DD  SDT_DY  ARP  ODP  FLO  REG  AOD  DLY  STT_H
-	# SDT_MM  SDT_DD  SDT_DY  ARP  ODP  FLO  REG  AOD  DLY  STT_H
+	# SDT_MM  SDT_DD  SDT_DY  ARP  ODP  FLO  REG  AOD  DLY  STT_H FLT
