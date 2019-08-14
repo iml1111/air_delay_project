@@ -18,7 +18,7 @@ warnings.filterwarnings("ignore")
 
 ###############파일 불러오기
 print("file_load...")
-df = pd.read_csv("AFSNT.csv", encoding='euc-kr')
+df = pd.read_csv("AFSNT.CSV", encoding='euc-kr')
 #############전처리하기
 print("pre-processing...")
 #결항 제거
@@ -49,13 +49,13 @@ df_ATT_Time = df['ATT_H'] * 60 + df['ATT_M']
 df_H3 = df_ATT_Time - df_STT_Time
 # H3값이 음수면 빨리 출발, 양수면 늦은 출발(지연가능)
 df['Time'] = df_H3
-df = df.loc[(df['Time'] >= -180) | (df['DLY'] != 'Y') | (df['ATT_H'] < 0) | (df['ATT_H'] > 3) | (df['STT_H'] < 22)]
+# df = df.loc[(df['Time'] >= -180) | (df['DLY'] != 'Y') | (df['ATT_H'] < 0) | (df['ATT_H'] > 3) | (df['STT_H'] < 22)]
 df = df.loc[(df['STT_H'] != 0) & (df['STT_H'] != 1) & (df['STT_H'] != 23)]
-df['STT_H'].loc[(df['STT_H'] == 6)] = 0
+df['STT_H'].loc[(df['STT_H'] <= 6)] = 0
 df['STT_H'].loc[(df['STT_H'] >= 7) & (df['STT_H'] <= 12)] = 1
 df['STT_H'].loc[(df['STT_H'] >= 13) & (df['STT_H'] <= 19)] = 2
 df['STT_H'].loc[(df['STT_H'] == 20)] = 3
-df['STT_H'].loc[(df['STT_H'] == 21) | (df['STT_H'] == 22)] = 4
+df['STT_H'].loc[(df['STT_H'] >= 21)] = 4
 print(df.head())
 
 # string split
@@ -80,13 +80,13 @@ df['SDT_DY'].loc[df['SDT_DY'] == '일'] = 6
 label_encoder = preprocessing.LabelEncoder()
 df_y = label_encoder.fit_transform(df['FLO']) 
 df['FLO'] = df_y.reshape(len(df_y), 1)
+df_y = label_encoder.fit_transform(df['FLT']) 
+df['FLT'] = df_y.reshape(len(df_y), 1)
 df_y = label_encoder.fit_transform(df['REG']) 
 df['REG'] = df_y.reshape(len(df_y), 1)
 df_y = label_encoder.fit_transform(df['AOD']) 
 df['AOD'] = df_y.reshape(len(df_y), 1)
 df = df.drop(['CNL','CNR','IRR','DRR','SDT_YY','ATT','Time',"STT","ATT","ATT_H","ATT_M","STT_M"], axis = 1)
-
-df = df.drop(['FLT'], axis = 1)
 
 """df = df.drop(['FLT'], axis = 1)
 
@@ -108,11 +108,16 @@ df_x = df1.drop(['DLY'], axis=1)
 val_y = val1['DLY']
 val_x = val1.drop(['DLY'], axis=1)
 print("split done...")
+
+
+
+"""## Random Forest"""
+
 # Random Forest
 from sklearn.ensemble import RandomForestClassifier
 
 # col: 출발/도착 지연/비지연 등등 구분
-est = 10000
+est = 5000
 print("Machine Learning...")
 ###### 학습하기
 random_forest = RandomForestClassifier(n_estimators=est,  min_samples_leaf=3)

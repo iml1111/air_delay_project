@@ -3,7 +3,7 @@ import pandas as pd
 import random as rnd
 from sklearn import preprocessing
 
-def p_proc(file = '/content/drive/My Drive/Colab Notebooks/air_delay_project/src/AFSNT.CSV'):
+def p_proc(file = 'AFSNT.CSV'):
 	###############파일 불러오기
 	print("file_load...")
 	df = pd.read_csv(file, engine='python', encoding="euc-kr")
@@ -39,11 +39,11 @@ def p_proc(file = '/content/drive/My Drive/Colab Notebooks/air_delay_project/src
 	df['Time'] = df_H3
 	df = df.loc[(df['Time'] >= -180) | (df['DLY'] != 'Y') | (df['ATT_H'] < 0) | (df['ATT_H'] > 3) | (df['STT_H'] < 22)]
 	df = df.loc[(df['STT_H'] != 0) & (df['STT_H'] != 1) & (df['STT_H'] != 23)]
-	df['STT_H'].loc[(df['STT_H'] == 6)] = 0
+	df['STT_H'].loc[(df['STT_H'] <= 6)] = 0
 	df['STT_H'].loc[(df['STT_H'] >= 7) & (df['STT_H'] <= 12)] = 1
 	df['STT_H'].loc[(df['STT_H'] >= 13) & (df['STT_H'] <= 19)] = 2
 	df['STT_H'].loc[(df['STT_H'] == 20)] = 3
-	df['STT_H'].loc[(df['STT_H'] == 21) | (df['STT_H'] == 22)] = 4
+	df['STT_H'].loc[(df['STT_H'] >= 21) & (df['STT_H'] <= 23)] = 4
 	return df
 
 def label(df):
