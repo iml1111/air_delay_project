@@ -15,8 +15,6 @@ def p_proc(file = 'AFSNT.CSV'):
 	df = df[df['REG'].notnull()]
 	#부정기편 제거하기
 	df = df[ df['IRR'] == "N" ]
-	# arp와 odp가 같을 경우 제거
-	df = df[ df['ARP'] != df['ODP']  ]
 	# 시/분 단위로 나누기
 	STT_Hour = []
 	STT_Minute = []
