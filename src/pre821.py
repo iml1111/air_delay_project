@@ -50,7 +50,7 @@ def p_proc(file = 'AFSNT.CSV'):
 
 def label(df):
 	#학습 데이터 외의 칼럼 제거
-	df = df.drop(['CNL','CNR','IRR','DRR','SDT_YY','ATT','Time',"STT","ATT","ATT_H","ATT_M","STT_M"], axis = 1)
+	df = df.drop(['CNL','CNR','IRR','DRR','SDT_YY','ATT','Time',"STT","ATT","ATT_H","ATT_M","STT_M","REG"], axis = 1)
 	df['DLY'].loc[df['DLY'] == 'Y'] = 1
 	df['DLY'].loc[df['DLY'] == 'N'] = 0
 	# ARP ODP 매핑
@@ -80,11 +80,9 @@ def label(df):
 	label_encoder = preprocessing.LabelEncoder()
 	df_y = label_encoder.fit_transform(df['FLO']) 
 	df['FLO'] = df_y.reshape(len(df_y), 1)
-	df_y = label_encoder.fit_transform(df['REG']) 
-	df['REG'] = df_y.reshape(len(df_y), 1)
 	df_y = label_encoder.fit_transform(df['AOD']) 
 	df['AOD'] = df_y.reshape(len(df_y), 1)
 	df_y = label_encoder.fit_transform(df['FLT']) 
 	df['FLT'] = df_y.reshape(len(df_y), 1)
 	return df
-	# SDT_MM  SDT_DD  SDT_DY  FLO  FLT  REG  AOD  DLY  STT_H  ARP_ODP
+	# SDT_MM  SDT_DD  SDT_DY  FLO  FLT  AOD  DLY  STT_H  ARP_ODP

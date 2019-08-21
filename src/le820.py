@@ -39,7 +39,7 @@ def l_proc(df, est = 100):
 	print(y_score)
 	print(roc_auc_score(val_y, y_score[:,1]))
 	print('end')
-	return
+	#return
 	######################### DNN ##############
 	df_x['rf_score'] = random_forest.predict(df_x)
 	val_x['rf_score'] = random_forest.predict(val_x)
@@ -67,3 +67,29 @@ def l_proc(df, est = 100):
 	Y_pred = [1 if Y_pred[i]>0.5 else 0 for i in range(len(Y_pred))]
 	score = classification_report(val_y, Y_pred)
 	print(score)
+	''' 랜덤포레스트만
+	RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
+                       max_depth=None, max_features='auto', max_leaf_nodes=None,
+                       min_impurity_decrease=0.0, min_impurity_split=None,
+                       min_samples_leaf=3, min_samples_split=2,
+                       min_weight_fraction_leaf=0.0, n_estimators=1000,
+                       n_jobs=None, oob_score=False, random_state=None,
+                       verbose=0, warm_start=False)
+              precision    recall  f1-score   support
+
+           0       0.89      0.99      0.94    168366
+           1       0.76      0.14      0.24     23259
+
+    accuracy                           0.89    191625
+   macro avg       0.83      0.57      0.59    191625
+weighted avg       0.88      0.89      0.86    191625
+
+[[0.9449223  0.0550777 ]
+ [0.75878289 0.24121711]
+ [0.94332556 0.05667444]
+ ...
+ [0.8762286  0.1237714 ]
+ [0.85600784 0.14399216]
+ [0.74560882 0.25439118]]
+0.8559545780036244
+	'''
