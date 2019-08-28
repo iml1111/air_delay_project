@@ -82,7 +82,6 @@ def load_model():
 	df = pd.read_csv("AFSNT_DLY.CSV", engine='python', encoding="euc-kr")
 
 
-
 #현재 p3_proc, label 확정
 
 # dly 가중치는 0.7로 할것
