@@ -21,11 +21,11 @@ lgb_params = {
                     'colsample_bytree': 0.7,
                     'subsample_freq':1,
                     'subsample':1,
-                    'n_estimators':4000,
+                    'n_estimators':20000,
                     'max_bin':255,
                     'verbose':-1,
                     'seed': SEED,
-                    'early_stopping_rounds':100, 
+                    #'early_stopping_rounds':100, 
                 }
 
 def l_proc(df):
