@@ -21,7 +21,7 @@ lgb_params = {
                     'colsample_bytree': 0.7,
                     'subsample_freq':1,
                     'subsample':1,
-                    'n_estimators':20000,
+                    'n_estimators':16600,
                     'max_bin':255,
                     'verbose':-1,
                     'seed': SEED,
