@@ -12,7 +12,7 @@ SEED = 42
 lgb_params = {
                     'objective':'binary',
                     'boosting_type':'gbdt',
-                    'metric':'auc',
+                    'metric':['auc','rmse'],
                     'n_jobs':-1,
                     'learning_rate':0.01,
                     'num_leaves': 2**8,
@@ -25,6 +25,7 @@ lgb_params = {
                     'max_bin':255,
                     'verbose':-1,
                     'seed': SEED,
+                    #"device" : "gpu"
                     #'early_stopping_rounds':100, 
                 }
 
