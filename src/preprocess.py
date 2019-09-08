@@ -17,10 +17,6 @@ def p_proc(file = 'AFSNT.CSV'):
 	df = df[ df['IRR'] == "N" ]
 	# arp와 odp가 같을 경우 제거
 	df = df[ df['ARP'] != df['ODP']  ]
-	df = df.drop(["REG",'IRR',"DRR","CNL","CNR"], axis = 1)
-	return df
-
-def label(df):
 	# 시/분 단위로 나누기
 	STT_Hour = []
 	STT_Minute = []
@@ -44,6 +40,24 @@ def label(df):
 	# H3값이 음수면 빨리 출발, 양수면 늦은 출발(지연가능)
 	df['Time'] = df_H3
 	df = df.loc[(df['Time'] >= 0) | (df['DLY'] != 'Y') | (df['ATT_H'] < 0) | (df['ATT_H'] > 3) | (df['STT_H'] < 22)]
+	df = df.drop(["REG",'IRR',"DRR","CNL","CNR",'ATT','Time',"ATT_H","ATT_M",], axis = 1)
+	return df
+
+def p_proc2(file = 'AFSNT_DLY.CSV'):
+	df = pd.read_csv(file, engine='python', encoding="euc-kr")
+	# 시/분 단위로 나누기
+	STT_Hour = []
+	STT_Minute = []
+	STT = df['STT']
+	sub = STT.str.split(':', expand = True)
+	STT_Hour = sub.iloc[0:, 0]
+	STT_Minute = sub.iloc[0:, 1]
+	df['STT_H'] = STT_Hour.astype(int)
+	df['STT_M'] = STT_Minute.astype(int)
+	df = df.drop(["DLY_RATE"], axis = 1)
+	return df
+
+def label(df):
 	df['DLY'].loc[df['DLY'] == 'Y'] = 1
 	df['DLY'].loc[df['DLY'] == 'N'] = 0
 	# ARP ODP 매핑
@@ -74,6 +88,6 @@ def label(df):
 	df_y = label_encoder.fit_transform(df['FLT']) 
 	df['FLT'] = df_y.reshape(len(df_y), 1)
 	#학습 데이터 외의 칼럼 제거
-	df = df.drop(['SDT_YY','ATT','Time',"STT","ATT","ATT_H","ATT_M","STT_M"], axis = 1)
+	df = df.drop(['SDT_YY',"STT","STT_M"], axis = 1)
 	return df
 	# SDT_MM  SDT_DD  SDT_DY  FLO  FLT AOD  DLY  STT_H  ARP_ODP SAME_DAY
