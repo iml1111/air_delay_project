@@ -10,23 +10,21 @@ import pickle
 from sklearn.externals import joblib
 SEED = 42
 lgb_params = {
-                    'objective':'binary',
+                     'objective':'binary',
                     'boosting_type':'gbdt',
                     'metric':['auc','rmse'],
                     'n_jobs':-1,
                     'learning_rate':0.01,
-                    'num_leaves': 2**8,
+                    'num_leaves': 2**7,
                     'max_depth':-1,
                     'tree_learner':'serial',
-                    'colsample_bytree': 0.7,
+                    'colsample_bytree': 0.95,
                     'subsample_freq':1,
-                    'subsample':1,
-                    'n_estimators':16600,
-                    'max_bin':255,
+                    'subsample':0.9,
+                    'n_estimators':62000,
+                    'max_bin':4092,
                     'verbose':-1,
                     'seed': SEED,
-                    #"device" : "gpu"
-                    #'early_stopping_rounds':100, 
                 }
 
 def l_proc(df):
@@ -49,7 +47,11 @@ def l_proc(df):
         tr_data,
         valid_sets = [tr_data, vl_data],
         verbose_eval = 200,
-    )    
-    Y_pred = estimator.predict(val_x)
+    )
+
+    joblib.dump(estimator, 'lgb.pkl')
+    load_model = joblib.load('lgb.pkl')
+
+    Y_pred = load_model.predict(val_x)
     print(roc_auc_score(val_y, Y_pred))
     return Y_pred
