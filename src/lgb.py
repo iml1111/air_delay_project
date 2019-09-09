@@ -13,6 +13,7 @@ import pandas as pd
 SEED = 42
 lgb_params = {
                      'objective':'binary',
+                     'application':"binary",
                     'boosting_type':'gbdt',
                     'metric':['auc','rmse'],
                     'n_jobs':-1,
@@ -23,7 +24,7 @@ lgb_params = {
                     'colsample_bytree': 0.95,
                     'subsample_freq':1,
                     'subsample':0.9,
-                    'n_estimators':62000,
+                    'n_estimators':40_000,
                     'max_bin':4092,
                     'verbose':-1,
                     'seed': SEED,
