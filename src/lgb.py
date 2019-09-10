@@ -24,7 +24,7 @@ lgb_params = {
                     'colsample_bytree': 0.95,
                     'subsample_freq':1,
                     'subsample':0.9,
-                    'n_estimators':40_000,
+                    'n_estimators':19_000,
                     'max_bin':4092,
                     'verbose':-1,
                     'seed': SEED,
@@ -89,7 +89,7 @@ def load_model(df):
 	Y_pred = load_model.predict(val_x)
 	result = pd.read_csv('AFSNT_DLY.CSV', engine='python', encoding="euc-kr")
 	result = result.drop(["DLY",'DLY_RATE'], axis = 1)
-	result['DLY'] = [1 if i >= 0.5 else 0 for i in Y_pred]
+	result['DLY'] = [1 if i >= 0.4 else 0 for i in Y_pred]
 	result['DLY_RATE'] = [round(i, 2)  for i in Y_pred]
 	result.to_csv("result.csv", index = False, encoding="euc-kr")
 
